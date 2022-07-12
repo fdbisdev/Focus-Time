@@ -8,6 +8,9 @@ const formatTime = (time) => (time < 10 ? `0${time}` : time);
 
 export const Countdown = ({ minutes = 0.1, isPaused, onProgress, onEnd }) => {
   const interval = React.useRef(null);
+
+  const reset = () => setMillis(minutesToMillis(minutes));
+
   const [millis, setMillis] = useState(null);
   const minute = Math.floor(millis / 1000 / 60) % 60;
   const seconds = Math.floor(millis / 1000) % 60;
@@ -35,7 +38,7 @@ export const Countdown = ({ minutes = 0.1, isPaused, onProgress, onEnd }) => {
     setMillis((time) => {
       if (time === 0) {
         clearInterval(interval.current);
-        onEnd();
+        onEnd(reset);
         return time;
       }
 
